@@ -1,6 +1,6 @@
-import sarahedo from '../assets/sarahedo.svg'
-import tylermcginnis from '../assets/tylermcginnis.svg'
-import johndoe from '../assets/johndoe.svg'
+import sarahedo from 'assets/sarahedo.svg'
+import tylermcginnis from 'assets/tylermcginnis.svg'
+import johndoe from 'assets/johndoe.svg'
 
 let users = {
   sarahedo: {
@@ -195,7 +195,7 @@ export function _saveQuestionAnswer ({ authedUser, qid, answer }) {
           ...questions[qid],
           [answer]: {
             ...questions[qid][answer],
-            votes: questions[qid][answer].votes.concat([authedUser])
+            votes: !questions[qid][answer].votes.includes(authedUser) ? questions[qid][answer].votes.concat([authedUser]) : questions[qid][answer].votes
           }
         }
       }

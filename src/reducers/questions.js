@@ -5,9 +5,21 @@ export default function questions(state = {}, action) {
     case RECEIVE_QUESTIONS:
       return action.questions ? action.questions : state
     case SAVE_QUESTION:
-      return action.question ? action.question : state
+    return {
+      ...state,
+      [action.question.id]: action.question
+    }
     case SAVE_QUESTION_ANSWER:
-      return state
+      return {
+        ...state,
+        [action.id]: {
+          ...state[action.id],
+          [action.answer]: {
+            ...state[action.id][action.answer],
+            votes: !state[action.id][action.answer].votes.includes(action.authUser) ? state[action.id][action.answer].votes.concat([action.authUser]) : state[action.id][action.answer].votes
+          }
+        }
+      }
     default:
         return state
   }

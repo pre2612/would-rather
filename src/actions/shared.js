@@ -1,6 +1,6 @@
-import { getInitialData, saveQuestion, saveQuestionAnswer } from '../utils/api'
-import { receiveUsers } from './users'
-import { receiveQuestions, saveUserQuestion, saveUserQuestionAnswer } from './questions'
+import { getInitialData, saveQuestion, saveQuestionAnswer } from 'utils/api'
+import { receiveUsers, addUserQuestion, addUserQuestionAnswer } from './users'
+import { receiveQuestions, addQuestion, addQuestionAnswer } from './questions'
 
 
 export function handleInitialData() {
@@ -12,18 +12,31 @@ export function handleInitialData() {
   }
 }
 
-export function handleSaveQuestion(question) {
-  return (dispatch) => {
-    saveQuestion(question).then((question) => {
-      dispatch(saveUserQuestion(question));
+export function handleSaveQuestion(optionOne, optionTwo) {
+  return (dispatch, getState) => {
+    const  { authUser } = getState();
+    console.log(authUser);
+    saveQuestion({
+      optionOneText: optionOne,
+      optionTwoText: optionTwo,
+      author: authUser
+    }).then((question) => {
+      dispatch(addQuestion(question));
+      dispatch(addUserQuestion(question));
     })
   }
 }
 
-export function handleSaveQuestionAnswer(data) {
-  return (dispatch) => {
-    saveQuestionAnswer(data).then(() => {
-      dispatch(saveUserQuestionAnswer());
+export function handleSaveQuestionAnswer(id, answer) {
+  return (dispatch, getState) => {
+    const { authUser } = getState();
+    saveQuestionAnswer({
+      authedUser: authUser,
+      qid: id,
+      answer: answer
+    }).then(() => {
+      dispatch(addQuestionAnswer({ authUser, id, answer }));
+      dispatch(addUserQuestionAnswer({ authUser, id, answer }));
     })
   }
 }
