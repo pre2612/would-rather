@@ -1,12 +1,17 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
+import LoadingBar from 'react-redux-loading-bar'
 import { Navbar, Nav, Container, Image, Button } from 'react-bootstrap'
 import { clearAuthUser } from 'actions/authUser'
 import logo from 'assets/logo.png'
 import './Navigation.style.css'
 
 class Navigation extends Component {
+  /**
+  * User Log off & clearss authUser
+  * @param    {e} event
+  */
    logUserOut = (e) => {
      e.preventDefault();
      const { clearAuthUser } = this.props;
@@ -15,6 +20,7 @@ class Navigation extends Component {
     render() {
         const { authUser } = this.props;
         return (
+          <Fragment>
             <Navbar variant="dark">
                 <Container>
                     <NavLink to="/" className="nav-link"><Image src={logo} thumbnail width="60" height="60" /></NavLink>
@@ -37,6 +43,8 @@ class Navigation extends Component {
 
                 </Container>
             </Navbar>
+            <LoadingBar />
+          </Fragment>
         )
     }
 }

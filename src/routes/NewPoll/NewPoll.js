@@ -1,7 +1,7 @@
 import { Component, Fragment } from 'react';
 import { connect } from 'react-redux'
 import { Card, Form, Button } from 'react-bootstrap'
-import { handleSaveQuestion } from '../../actions/shared'
+import { handleSaveQuestion } from 'actions/shared'
 
 class NewPoll extends Component {
   state = {
@@ -21,7 +21,6 @@ class NewPoll extends Component {
     e.preventDefault();
     const { handleSaveQuestion, history } = this.props;
     const { optionOne, optionTwo } = this.state;
-    console.log("one");
     handleSaveQuestion(optionOne, optionTwo);
     history.push('/');
   }

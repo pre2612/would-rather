@@ -1,0 +1,14 @@
+.poll-results-card .progress-container {
+  border: 1px solid #047b9045;
+  padding: 1rem;
+  margin-bottom: 7px;
+  border-radius: .25rem;
+}
+
+.poll-results-card .progress-container .progress {
+    height: .7rem;
+}
+
+.poll-results-card .progress-container.chosen-answer {
+  background-color: #0fd0fb94;
+}

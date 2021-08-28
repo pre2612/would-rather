@@ -10,10 +10,8 @@ import App from 'components/App';
 const store = createStore(reducers, middleware);
 
 ReactDOM.render(
-  <React.StrictMode>
     <Provider store={store}>
       <App />
-    </Provider>
-  </React.StrictMode>,
+    </Provider>,
   document.getElementById('root')
 );

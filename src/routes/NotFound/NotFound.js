@@ -11,7 +11,7 @@ class NotFound extends Component {
               <h2>Uh Oh...</h2>
               <p>
                   No Worries we got your back.<br/>
-                  Let's go back...<br/><br/> <Link to="/" className="btn btn-default"><strong>HOME</strong></Link>
+                  Let's go back...<br/><br/> <Link to="/" className="btn btn-link"><strong>HOME</strong></Link>
               </p>
           </Card.Body>
       </Card>

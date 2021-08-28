@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { handleSaveQuestionAnswer } from '../../actions/shared'
+import { handleSaveQuestionAnswer } from 'actions/shared'
 import { Card, Row, Col, Image, Form } from 'react-bootstrap'
 
 class Vote extends Component {
@@ -18,7 +18,7 @@ class Vote extends Component {
     const { handleSaveQuestionAnswer, history } = this.props;
     const { id, radioValue } = this.state;
     handleSaveQuestionAnswer(id, radioValue);
-    history.push('/');
+    history.push("/vote/" + id + "/results");
   }
   render() {
     const { id } = this.props.match.params;
@@ -42,7 +42,7 @@ class Vote extends Component {
                                <Form.Check type="radio" value="optionTwo" label={questions[id].optionTwo.text} checked={radioValue === "optionTwo"} onChange={this.handleChange} />
                            </Form.Group>
 
-                           <button type="submit" className="btn btn-primary btn-block" onClick={this.handleSubmit}>Submit</button>
+                           <button type="submit" className="btn btn-primary btn-block" onClick={this.handleSubmit}>Vote</button>
                        </Form>
                   </Col>
               </Row>
