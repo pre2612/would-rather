@@ -50,8 +50,8 @@ class NewPoll extends Component {
   }
 }
 
-export const mapDispatchToProps = dispatch => ({
-  handleSaveQuestion: (optionOne, optionTwo) => dispatch(handleSaveQuestion(optionOne, optionTwo))
-})
+export const mapDispatchToProps = {
+  handleSaveQuestion
+}
 
 export default connect(null, mapDispatchToProps)(NewPoll);

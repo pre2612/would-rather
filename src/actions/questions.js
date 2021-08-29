@@ -8,19 +8,3 @@ export function receiveQuestions(questions) {
     questions
   }
 }
-
-export function addQuestion(question) {
-  return {
-    type: SAVE_QUESTION,
-    question
-  }
-}
-
-export function addQuestionAnswer(data) {
-  return {
-    type: SAVE_QUESTION_ANSWER,
-    authUser: data.authUser,
-    id: data.id,
-    answer: data.answer
-  }
-}

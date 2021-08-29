@@ -7,7 +7,6 @@ import LeaderBoard from 'routes/LeaderBoard/LeaderBoard'
 import NewPoll from 'routes/NewPoll/NewPoll'
 import Polls from 'routes/Polls/Polls'
 import Vote from 'routes/Vote/Vote'
-import VoteResults from 'routes/VoteResults/VoteResults'
 import NotFound from 'routes/NotFound/NotFound'
 import { Container, Row, Col } from 'react-bootstrap'
 
@@ -27,8 +26,8 @@ class AppRouter extends Component {
                   <ProtectedRoute exact path="/add" component={NewPoll} authUser={authUser} />
                   <ProtectedRoute exact path="/leaderboard" component={LeaderBoard} authUser={authUser} />
                   <ProtectedRoute exact path="/" component={Polls} authUser={authUser} />
-                  <ProtectedRoute exact path="/vote/:id" component={Vote} authUser={authUser} />
-                  <ProtectedRoute exact path="/vote/:id/results" component={VoteResults} authUser={authUser} />
+                  <ProtectedRoute exact path="/questions/:question_id" component={Vote} authUser={authUser} />
+                  <Route path="/not-found" component={NotFound} />
                   <Route component={NotFound} />
                 </Switch>
               </Col>

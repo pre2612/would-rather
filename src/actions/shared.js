@@ -1,7 +1,26 @@
 import { showLoading, hideLoading } from 'react-redux-loading-bar'
 import { getInitialData, saveQuestion, saveQuestionAnswer } from 'utils/api'
-import { receiveUsers, addUserQuestion, addUserQuestionAnswer } from './users'
-import { receiveQuestions, addQuestion, addQuestionAnswer } from './questions'
+import { receiveUsers } from './users'
+import { receiveQuestions } from './questions'
+
+export const SAVE_QUESTION = 'SAVE_QUESTION'
+export const SAVE_QUESTION_ANSWER = 'SAVE_QUESTION_ANSWER'
+
+function addQuestion(question) {
+  return {
+    type: SAVE_QUESTION,
+    question
+  }
+}
+
+function addQuestionAnswer(data) {
+  return {
+    type: SAVE_QUESTION_ANSWER,
+    authUser: data.authUser,
+    id: data.id,
+    answer: data.answer
+  }
+}
 
 
 export function handleInitialData() {
@@ -25,7 +44,6 @@ export function handleSaveQuestion(optionOne, optionTwo) {
       author: authUser
     }).then((question) => {
       dispatch(addQuestion(question));
-      dispatch(addUserQuestion(question));
       dispatch(hideLoading());
     })
   }
@@ -41,7 +59,6 @@ export function handleSaveQuestionAnswer(id, answer) {
       answer: answer
     }).then(() => {
       dispatch(addQuestionAnswer({ authUser, id, answer }));
-      dispatch(addUserQuestionAnswer({ authUser, id, answer }));
       dispatch(hideLoading());
     })
   }

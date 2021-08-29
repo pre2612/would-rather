@@ -19,9 +19,9 @@ class Polls extends Component {
           </Tab>
           <Tab eventKey="answered" title="Answered Questions" tabClassName="w-50 text-center">
               <div className="leaderBoard-list">
-              {answeredQuestions && answeredQuestions.map((qa, index) =>
-                <PollCard showResults key={index} name={users[questions[qa].author].name} question={questions[qa]} avatarURL={users[questions[qa].author].avatarURL} />
-              )}
+                  {answeredQuestions && answeredQuestions.map((qa, index) =>
+                    <PollCard showResults key={index} name={users[questions[qa].author].name} question={questions[qa]} avatarURL={users[questions[qa].author].avatarURL} />
+                  )}
               </div>
           </Tab>
       </Tabs>

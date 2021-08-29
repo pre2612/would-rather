@@ -1,50 +1,68 @@
 import { Component } from 'react'
 import { connect } from 'react-redux'
 import { handleSaveQuestionAnswer } from 'actions/shared'
+import { getVoteInfo } from 'utils/helper'
+import Progress from 'components/Progress'
 import { Card, Row, Col, Image, Form } from 'react-bootstrap'
 
 class Vote extends Component {
   state = {
     radioValue: '',
-    id: this.props.match.params.id
+    isDisabled: true
+  }
+  componentDidMount() {
+    const { question, history } = this.props;
+    if(question === undefined) {
+      history.push('/not-found');
+    }
   }
   handleChange = (e) => {
     this.setState({
-        radioValue: e.target.value
+        radioValue: e.target.value,
+        isDisabled: false
       });
   }
   handleSubmit = (e) => {
     e.preventDefault();
-    const { handleSaveQuestionAnswer, history } = this.props;
-    const { id, radioValue } = this.state;
+    const { handleSaveQuestionAnswer, id } = this.props;
+    const { radioValue } = this.state;
     handleSaveQuestionAnswer(id, radioValue);
-    history.push("/vote/" + id + "/results");
   }
   render() {
-    const { id } = this.props.match.params;
-    const { users, questions } = this.props;
-    const { radioValue } = this.state;
+    const { users, question, answered, voteInfo } = this.props;
+    const { radioValue, isDisabled } = this.state;
+    if(!question) {
+         return null;
+     }
     return (
       <Card className="poll-card">
-          <Card.Header><strong>{users[questions[id].author].name}</strong></Card.Header>
+          <Card.Header><strong>{users[question.author].name}</strong></Card.Header>
           <Card.Body>
               <Row>
                   <Col className="img-col">
-                    <Image className="img-avatar" src={users[questions[id].author].avatarURL} />
+                    <Image className="img-avatar" src={users[question.author].avatarURL} />
                   </Col>
-                  <Col>
-                      <h4>Would you rather</h4>
-                      <Form>
-                           <Form.Group className="mb-3" controlId="firstOption">
-                               <Form.Check type="radio" value="optionOne" label={questions[id].optionOne.text} checked={radioValue === "optionOne"} onChange={this.handleChange} />
-                           </Form.Group>
-                           <Form.Group className="mb-3" controlId="secondOption">
-                               <Form.Check type="radio" value="optionTwo" label={questions[id].optionTwo.text} checked={radioValue === "optionTwo"} onChange={this.handleChange} />
-                           </Form.Group>
+                    {!answered ? (
+                        <Col>
+                          <h4>Would you rather</h4>
+                          <Form>
+                               <Form.Group className="mb-3" controlId="firstOption">
+                                   <Form.Check type="radio" value="optionOne" label={question.optionOne.text} checked={radioValue === "optionOne"} onChange={this.handleChange} />
+                               </Form.Group>
+                               <Form.Group className="mb-3" controlId="secondOption">
+                                   <Form.Check type="radio" value="optionTwo" label={question.optionTwo.text} checked={radioValue === "optionTwo"} onChange={this.handleChange} />
+                               </Form.Group>
 
-                           <button type="submit" className="btn btn-primary btn-block" onClick={this.handleSubmit}>Vote</button>
-                       </Form>
-                  </Col>
+                               <button disabled={isDisabled} type="submit" className="btn btn-primary btn-block" onClick={this.handleSubmit}>Vote</button>
+                           </Form>
+                        </Col>
+                    ) : (
+                          <Col>
+                              <h4>Results</h4>
+                              <Progress voteInfo={voteInfo.optionOne} />
+                              <Progress voteInfo={voteInfo.optionTwo} />
+                          </Col>
+                    )}
               </Row>
           </Card.Body>
       </Card>
@@ -52,13 +70,21 @@ class Vote extends Component {
   }
 }
 
-export const mapStateToProps = ({ users, questions }) => ({
-  users,
-  questions
-})
+export const mapStateToProps = ({ authUser, users, questions }, { match }) => {
+  const id = match.params.question_id;
+  const question = questions[id];
+  const answered = question ? (question.optionOne.votes.indexOf(authUser) > -1 || question.optionTwo.votes.indexOf(authUser) > -1) : false;
+  return {
+    users,
+    id,
+    question,
+    answered,
+    voteInfo: question ? getVoteInfo(question, authUser) : {}
+  }
+}
 
-export const mapDispatchToProps = dispatch => ({
-  handleSaveQuestionAnswer: (id, answer) => dispatch(handleSaveQuestionAnswer(id, answer))
-})
+export const mapDispatchToProps = {
+  handleSaveQuestionAnswer
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Vote);

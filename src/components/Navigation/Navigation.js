@@ -53,8 +53,8 @@ export const mapStateToProps = ({ authUser }) => ({
   authUser
 })
 
-export const mapDispatchToProps = dispatch => ({
-    clearAuthUser: () => dispatch(clearAuthUser())
-});
+export const mapDispatchToProps = {
+  clearAuthUser
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

@@ -67,9 +67,8 @@ export const mapStateToProps = ({ users }) => ({
   users
 })
 
-export const mapDispatchToProps = dispatch => ({
-  setAuthUser: userId => dispatch(setAuthUser(userId))
-})
-
+const mapDispatchToProps = {
+    setAuthUser
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

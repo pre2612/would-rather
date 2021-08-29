@@ -22,8 +22,8 @@ export const mapStateToProps = ({ authUser }) => ({
   authUser
 })
 
-export const mapDispatchToProps = dispatch => ({
-  handleInitialData: () => dispatch(handleInitialData())
-})
+export const mapDispatchToProps = {
+  handleInitialData
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
